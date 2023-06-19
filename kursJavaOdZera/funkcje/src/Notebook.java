@@ -18,7 +18,18 @@ public class Notebook {
         System.out.println(zdanie);
 
         //funkcje
+        String info = funkcja(12,"Adam"); //wywołanie funkcji
+        System.out.println(info);
 
+    }
+
+    //funkcje
+
+    public static String funkcja(int argument1, String argument2) //definicja funkcji (String - rodzaj zwracanego wyniku)
+    {
+        String zdanie = argument1+argument2;
+        zdanie += "\n";
+        return zdanie; //zwracanie wyniku
     }
 
 }
