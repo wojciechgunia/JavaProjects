@@ -22,7 +22,12 @@ public class Notebook {
         System.out.println(info);
 
         //enum
-
+        /*
+        public enum Gender
+        {
+            MALE, FEMALE
+        }/
+        */
     }
 
     //funkcje
