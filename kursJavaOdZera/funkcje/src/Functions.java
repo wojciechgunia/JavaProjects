@@ -9,9 +9,8 @@ public class Functions
 
     public static void showPerson(String name,int age,boolean study)
     {
-        System.out.println("Name: "+name);
-        System.out.println("Age: "+age);
-        System.out.println("Student: "+study+"\n");
+        String info = "Name: "+name+"\n"+"Age: "+age+"\n"+"Student: "+study+"\n\n";
+        System.out.println(info);
     }
 
 }
