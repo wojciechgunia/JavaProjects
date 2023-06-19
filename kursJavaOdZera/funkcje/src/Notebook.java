@@ -9,7 +9,7 @@ public class Notebook {
 
         int sum = x+y; //sum = 5 + 10
 
-        x=y; //x = y = 10
+        //x=y; //x = y = 10
 
         System.out.println(sum);
         System.out.println(x);
