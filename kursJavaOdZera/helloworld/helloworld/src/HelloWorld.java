@@ -3,6 +3,8 @@ public class HelloWorld
 
     public static void main(String[] args)
     {
+        System.out.println("Hello World!");
+
         String name = "Wojciech";
         int age = 21;
         boolean study = true;
