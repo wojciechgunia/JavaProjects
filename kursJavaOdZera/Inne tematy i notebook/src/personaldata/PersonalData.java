@@ -1,3 +1,5 @@
+package personaldata;
+
 public class PersonalData
 {
     public static void main(String[] args)
@@ -10,7 +12,7 @@ public class PersonalData
     {
         //String info = "Name: "+name+"\n"+"Age: "+age+"\n"+"Student: "+study+"\n\n"
         //System.out.println(info)
-        return "Name: "+name+"\n"+"Age: "+age+"\n"+"Student: "+study+"\n"+"Gender: "+gender+"\n";
+        return "Name: "+name+"\n"+"Age: "+age+"\n"+"Student: "+study+"\n"+"personaldata.Gender: "+gender+"\n";
     }
 }
 

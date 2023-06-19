@@ -25,7 +25,7 @@ public class Notebook {
 
         //enum
         /*
-        public enum Gender
+        public enum personaldata.Gender
         {
             MALE, FEMALE
         }/
