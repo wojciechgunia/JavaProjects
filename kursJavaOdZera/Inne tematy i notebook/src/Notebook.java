@@ -21,6 +21,8 @@ public class Notebook {
         String info = funkcja(12,"Adam"); //wywołanie funkcji
         System.out.println(info);
 
+        //enum
+
     }
 
     //funkcje
@@ -31,4 +33,5 @@ public class Notebook {
         zdanie += "\n";
         return zdanie; //zwracanie wyniku
     }
+
 }
