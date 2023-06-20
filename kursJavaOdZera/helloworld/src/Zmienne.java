@@ -25,5 +25,6 @@ public class Zmienne
         System.out.println("Name: "+name3);
         System.out.println("Age: "+age3);
         System.out.println("Student: "+study3+"\n");
+
     }
 }
