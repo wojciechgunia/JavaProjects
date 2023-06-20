@@ -65,6 +65,37 @@ public class Notebook {
                 System.out.println("Inna wartość");
                 break;
         }
+
+        //for
+        for(int i=1;i<=20;i++)
+        {
+            if(i%3==0)
+            {
+                continue;
+            }
+            if(i==13)
+            {
+                break;
+            }
+            System.out.println(i);
+        }
+
+        //while
+        int i = 1;
+        while(i<=20)
+        {
+            if(i%3==0)
+            {
+                i++;
+                continue;
+            }
+            if(i==13)
+            {
+                break;
+            }
+            System.out.println(i);
+            i++;
+        }
     }
 
     //funkcje
