@@ -54,7 +54,17 @@ public class Notebook {
             System.out.println(y);
         }
 
-        //
+        //switch
+        switch(x)
+        {
+            case 1:
+                System.out.println("Jeden");
+                break;
+
+            default:
+                System.out.println("Inna wartość");
+                break;
+        }
     }
 
     //funkcje
