@@ -1,5 +1,7 @@
 package notebook;
 
+import java.util.Random;
+
 public class Notebook {
 
     public static void main(String[] args)
@@ -95,6 +97,20 @@ public class Notebook {
             }
             System.out.println(i);
             i++;
+        }
+
+        //Tables
+        int[] tableOfInts = new int[5];
+
+        tableOfInts[0] = 1;
+        tableOfInts[1] = 5;
+        tableOfInts[2] = 123;
+        tableOfInts[3] = 23;
+        tableOfInts[4] = 1222333;
+
+        for (int j = 0; j<tableOfInts.length ; j++)
+        {
+            System.out.println("tableOfInts["+j+"] = "+tableOfInts[j]);
         }
     }
 
