@@ -1,6 +1,5 @@
 package scanner.exercise;
 
-import javax.swing.plaf.synth.SynthDesktopIconUI;
 import java.util.Scanner;
 
 public class CircleArea
