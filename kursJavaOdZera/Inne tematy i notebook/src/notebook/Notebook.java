@@ -112,6 +112,21 @@ public class Notebook {
         {
             System.out.println("tableOfInts["+j+"] = "+tableOfInts[j]);
         }
+
+        //Java API
+
+            //Math
+            System.out.println(Math.min(4, 2));
+            System.out.println(Math.floor(Math.sqrt(124)));
+
+            //String
+            System.out.println("pawel".toUpperCase());
+            System.out.println("pawel".length());
+
+            //Random
+            Random r = new Random();
+            System.out.println(r.nextInt(10,100));
+            System.out.println(r.nextDouble(10,100));
     }
 
     //funkcje
