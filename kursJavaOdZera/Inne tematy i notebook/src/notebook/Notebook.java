@@ -1,6 +1,7 @@
 package notebook;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class Notebook {
 
@@ -127,6 +128,20 @@ public class Notebook {
             Random r = new Random();
             System.out.println(r.nextInt(10,100));
             System.out.println(r.nextDouble(10,100));
+
+
+        //scanner
+        Scanner scan = new Scanner(System.in);
+
+        System.out.print("Podaj imię: ");
+        String nx = scan.next();
+        System.out.println("Witaj "+nx+"!");
+
+        System.out.print("Podaj a: ");
+        int a = scan.nextInt();
+        System.out.println("a = "+a);
+
+        //
     }
 
     //funkcje
