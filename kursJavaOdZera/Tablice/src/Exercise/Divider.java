@@ -15,6 +15,5 @@ public class Divider
         }
         while(b%a!=0);
         System.out.println("a = "+a+", b = "+b);
-
     }
 }
