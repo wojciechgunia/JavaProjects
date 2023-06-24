@@ -7,12 +7,12 @@ public class Person
     private final boolean study;
     private final Gender gender;
 
-    public Person(String newName, int newAge, boolean newStudy, Gender newGender)
+    public Person(String name, int age, boolean study, Gender gender)
     {
-        this.name = newName;
-        this.age = newAge;
-        this.study = newStudy;
-        this.gender = newGender;
+        this.name = name;
+        this.age = age;
+        this.study = study;
+        this.gender = gender;
 
     }
 
