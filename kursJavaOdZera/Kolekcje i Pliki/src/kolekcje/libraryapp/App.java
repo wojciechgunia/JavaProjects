@@ -144,12 +144,13 @@ public class App
         boolean running=true;
         while(running)
         {
-            running = appMenu(app, scan, running);
+            running = appMenu(app, scan);
         }
     }
 
-    private static boolean appMenu(App app, Scanner scan, boolean running)
+    private static boolean appMenu(App app, Scanner scan)
     {
+        boolean running=true;
         System.out.println("===================================\n0. Exit\n1.Print Authors\n2.Print Books\n3.Add Author\n4.Add Book");
         System.out.print("Choose option: ");
         int opt;
