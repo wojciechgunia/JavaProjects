@@ -1,5 +1,6 @@
 package scanner.exercise;
 
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -15,24 +16,34 @@ public class GuessGame
         for(int i = 1;i<=5;i++)
         {
             System.out.print("Guess the number: ");
-            int guess = scan.nextInt();
-            if(guess==number)
+            try
             {
-                System.out.println("Win in "+i+" try!");
-                break;
+                int guess = scan.nextInt();
+                if(guess==number)
+                {
+                    System.out.println("Win in "+i+" try!");
+                    break;
+                }
+                else if(guess>number)
+                {
+                    System.out.println("My number is lower.");
+                }
+                else
+                {
+                    System.out.println("My number is greater.");
+                }
+                if(i==5)
+                {
+                    System.out.println("You lose.");
+                }
             }
-            else if(guess>number)
+            catch (InputMismatchException e)
             {
-                System.out.println("My number is lower.");
+                System.out.println("Error! You must write a integer!");
+                System.out.println("You lose the round.");
+                scan.next();
             }
-            else
-            {
-                System.out.println("My number is greater.");
-            }
-            if(i==5)
-            {
-                System.out.println("You lose.");
-            }
+
         }
 
     }
