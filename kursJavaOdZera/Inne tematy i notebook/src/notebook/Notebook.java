@@ -141,6 +141,10 @@ public class Notebook {
         int a = scan.nextInt();
         System.out.println("a = "+a);
 
+        //exception create
+        if(a<0)
+            throw new IllegalStateException("'a' musi być większe od 0");
+
         //exceptions
         try
         {
