@@ -141,7 +141,20 @@ public class Notebook {
         int a = scan.nextInt();
         System.out.println("a = "+a);
 
-        //
+        //exceptions
+        try
+        {
+            int b = scan.nextInt();
+            System.out.println(b);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            System.out.println("Wypisz niezależnie");
+        }
     }
 
     //funkcje
