@@ -1,6 +1,6 @@
 package dziedziczenie.animals;
 
-public class Duck extends AquaticBird
+public class Duck extends Animal implements Swimming,Flying
 {
     public void swim()
     {

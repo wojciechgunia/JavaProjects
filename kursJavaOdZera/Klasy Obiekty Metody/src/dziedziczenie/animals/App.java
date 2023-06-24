@@ -35,9 +35,15 @@ public class App
         Horse h = new Horse();
         h.eat();
         showMeHowYouEat(h);
+
+        System.out.println("---------------------------");
+
+        Penguin p = new Penguin();
+        p.eat();
+        showMeHowYouSwim(p);
     }
 
-    public static void showMeHowYouSwim(AquaticBird b)
+    public static void showMeHowYouSwim(Swimming b)
     {
         b.swim();
     }
@@ -47,7 +53,7 @@ public class App
         a.eat();
     }
 
-    public static void showMeHowYouFly(Bird b)
+    public static void showMeHowYouFly(Flying b)
     {
         b.fly();
     }

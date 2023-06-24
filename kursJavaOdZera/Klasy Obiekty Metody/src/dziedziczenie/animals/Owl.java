@@ -1,6 +1,6 @@
 package dziedziczenie.animals;
 
-public class Owl extends Bird
+public class Owl extends Animal implements Flying
 {
     public void fly()
     {
