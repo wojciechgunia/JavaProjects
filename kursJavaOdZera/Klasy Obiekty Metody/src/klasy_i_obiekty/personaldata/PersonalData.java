@@ -9,8 +9,13 @@ public class PersonalData
         Person adam = new Person("Adam",20,true,Gender.MALE);
 
         System.out.println(wojciech.getPersonalData());
-        System.out.println(anna.getPersonalData());
+        System.out.println(wojciech.toString());
 
+        System.out.println("----------------------------------------");
+        System.out.println(anna.getPersonalData());
+        System.out.println(anna.toString());
+
+        System.out.println("----------------------------------------");
         adam.setStudy(false);
         adam.setAge(-2);
         adam.setAge(32);
@@ -18,6 +23,8 @@ public class PersonalData
         adam.setName("  Krztsztof    ");
 
         System.out.println(adam.getPersonalData());
+        System.out.println(adam.toString());
+        System.out.println("----------------------------------------");
     }
 
 }

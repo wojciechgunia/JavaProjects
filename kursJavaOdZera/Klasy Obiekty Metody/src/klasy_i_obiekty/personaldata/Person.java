@@ -1,6 +1,7 @@
 package klasy_i_obiekty.personaldata;
 
 import java.util.Locale;
+import java.util.Objects;
 
 public class Person
 {
@@ -20,7 +21,29 @@ public class Person
     {
         return "Name: "+this.name+"\n"+"Age: "+this.age+"\n"+"Student: "+this.study+"\n"+"Gender: "+this.gender+"\n";
     }
-
+    @Override
+    public String toString()
+    {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", study=" + study +
+                ", gender=" + gender +
+                '}';
+    }
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return age == person.age && study == person.study && Objects.equals(name, person.name) && gender == person.gender;
+    }
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(name, age, study, gender);
+    }
     public void setName(String name)
     {
         name=name.trim();
