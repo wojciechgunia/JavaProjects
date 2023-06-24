@@ -15,4 +15,9 @@ public class Person
         gender = newGender;
 
     }
+
+    public String showPerson()
+    {
+        return "Name: "+name+"\n"+"Age: "+age+"\n"+"Student: "+study+"\n"+"Gender: "+gender+"\n";
+    }
 }
