@@ -1,7 +1,5 @@
 package notebook;
 
-import StringBuilder.personaldata.Person;
-
 import java.util.Random;
 import java.util.Scanner;
 
