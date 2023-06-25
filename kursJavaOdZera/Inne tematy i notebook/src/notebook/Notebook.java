@@ -1,5 +1,7 @@
 package notebook;
 
+import StringBuilder.personaldata.Person;
+
 import java.util.Random;
 import java.util.Scanner;
 
@@ -159,6 +161,15 @@ public class Notebook {
         {
             System.out.println("Wypisz niezależnie");
         }
+
+        //String Builder
+        StringBuilder tx = new StringBuilder();
+        for (int k=0;k<5;k++)
+        {
+            tx.append(k);
+            tx.append("-------\n");
+        }
+        System.out.println(tx);
     }
 
     //funkcje
