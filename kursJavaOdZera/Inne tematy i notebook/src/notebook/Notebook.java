@@ -3,8 +3,8 @@ package notebook;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Notebook {
-
+public class Notebook
+{
     public static void main(String[] args)
     {
         //zmienne
