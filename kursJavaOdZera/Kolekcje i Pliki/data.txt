@@ -1,0 +1,20 @@
+Name: Wojciech
+Age: 21
+Student: true
+Gender: MALE
+-----------------------------------
+Name: Anna
+Age: 19
+Student: false
+Gender: FEMALE
+-----------------------------------
+Name: Adam
+Age: 20
+Student: false
+Gender: MALE
+-----------------------------------
+Name: Adam
+Age: 22
+Student: true
+Gender: MALE
+-----------------------------------
