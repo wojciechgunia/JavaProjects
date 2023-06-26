@@ -23,7 +23,7 @@
 ###
 
 <ul>
-	<li><a href="https://github.com/wojciechgunia/JavaProjects/tree/main/kursJavaOdZera">kursJavaOdZera - zawiera treści z kursu JavaOdZera</a><ul><li><a href="https://www.udemy.com/course/java-od-zera/" target="_blank">Link do kursu</a></li></ul></li>
+	<li><a href="https://github.com/wojciechgunia/JavaProjects/tree/main/kursJavaOdZera">kursJavaOdZera - zawiera treści z kursu JavaOdZera</a><ul><li><a href="https://www.udemy.com/course/java-od-zera/" target="_blank">Link strony do kursu</a></li></ul></li>
 </ul>
 
 ###
