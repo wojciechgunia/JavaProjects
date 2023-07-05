@@ -12,9 +12,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.URI;
 import java.util.*;
@@ -176,5 +179,20 @@ public class FamilyController
                 .contentLength(file.length()).contentType(MediaType.parseMediaType("application/octet-stream")).body(resource);
     }
 
+    @GetMapping("/video")
+    public StreamingResponseBody streamVideo(HttpServletResponse response) throws IOException
+    {
+        response.setContentType("video/mp4");
+        InputStream videoFileStream = new FileInputStream(new File("src/main/resources/static/video.mp4"));
+        return outputStream -> {
+            int nRead;
+            byte[] data = new byte[1024];
+            while((nRead = videoFileStream.read(data, 0, data.length)) != -1)
+            {
+                outputStream.write(data, 0, nRead);
+            }
+            videoFileStream.close();
+        };
+    }
 
 }
