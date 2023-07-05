@@ -1,6 +1,8 @@
 package com.example.kurs;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -134,4 +136,24 @@ public class FamilyController
         return ResponseEntity.status(HttpStatus.FOUND).location(location).build();
     }
 
+    @RequestMapping(value = "/getHeader", method = RequestMethod.GET)
+    public void getHeader(HttpServletRequest request)
+    {
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements())
+        {
+            String headerName = headerNames.nextElement();
+            String headerValue = request.getHeader(headerName);
+            System.out.println(headerName+ ": "+headerValue);
+        }
+
+        Cookie[] cookies = request.getCookies();
+        if(cookies!=null)
+        {
+            for(Cookie cookie: cookies)
+            {
+                System.out.println(cookie.getName() + ": " + cookie.getValue());
+            }
+        }
+    }
 }
