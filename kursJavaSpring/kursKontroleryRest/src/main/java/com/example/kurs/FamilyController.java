@@ -33,8 +33,12 @@ public class FamilyController
     }
 
     @RequestMapping(value = "/GETALL", method = RequestMethod.GET)
-    public List<Family> getAll()
+    public List<Family> getAll(HttpServletResponse response)
     {
+        response.setHeader("Lenght", String.valueOf(familylist.size()));
+        Cookie cookie = new Cookie("Lenght", String.valueOf(familylist.size()));
+        cookie.setMaxAge(20);
+        response.addCookie(cookie);
         return this.familylist;
     }
 
@@ -156,4 +160,6 @@ public class FamilyController
             }
         }
     }
+
+
 }
