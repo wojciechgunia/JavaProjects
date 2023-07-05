@@ -1,5 +1,6 @@
 package com.example.kurs;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,8 @@ public class FamilyController
 {
     List<Family> familylist = new ArrayList<>();
 
-
-    public FamilyController()
+    @PostConstruct
+    public void loadFamily()
     {
         this.createFamily("Kowalscy");
         this.createFamily("Nowakowie");
@@ -25,6 +26,7 @@ public class FamilyController
         this.addMember("Nowakowie","Anna",40,"Female");
         this.addMember("Nowakowie","Paweł",17,"Male");
     }
+
     @RequestMapping(value = "/GETALL", method = RequestMethod.GET)
     public List<Family> getAll()
     {
@@ -107,6 +109,19 @@ public class FamilyController
                 response.sendError(HttpServletResponse.SC_OK, "Dodano nową rodzinę");
             }
         }
+    }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public void deleteFamily(@PathVariable String id, HttpServletResponse response) throws IOException
+    {
+        Optional<Family> family = this.familylist.stream().filter(value->value.getUid().equals(id)).findFirst();
+        if(family.isPresent())
+        {
+            familylist.remove(family.get());
+            response.sendError(HttpServletResponse.SC_OK, "Poprawnie usunięto rodzinę");
+            return;
+        }
+        response.sendError(HttpServletResponse.SC_CONFLICT, "Taka rodzina nie istnieje");
     }
 
 }
