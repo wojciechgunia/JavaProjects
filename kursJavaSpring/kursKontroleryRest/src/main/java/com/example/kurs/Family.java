@@ -5,18 +5,18 @@ import java.util.UUID;
 
 public class Family
 {
-    private final UUID uid;
+    private final String uid;
     private String name;
     private List<Member> members;
 
-    public Family(UUID uid, String name, List<Member> members)
+    public Family(String uid, String name, List<Member> members)
     {
         this.uid = uid;
         this.name = name;
         this.members = members;
     }
 
-    public UUID getUid()
+    public String getUid()
     {
         return uid;
     }
@@ -39,5 +39,10 @@ public class Family
     public void setMembers(List<Member> members)
     {
         this.members = members;
+    }
+
+    public void addMember(Member member)
+    {
+        this.members.add(member);
     }
 }
