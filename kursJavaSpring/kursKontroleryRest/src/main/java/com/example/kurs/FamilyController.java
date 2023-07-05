@@ -90,6 +90,23 @@ public class FamilyController
         response.sendError(HttpServletResponse.SC_NO_CONTENT, "Taka rodzina nie istnieje");
     }
 
-
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+    public void updateFamily(@RequestBody Family family, @PathVariable String id, HttpServletResponse response) throws IOException
+    {
+        for(int x = 0; x<familylist.size();x++)
+        {
+            if(familylist.get(x).getUid().equals(id))
+            {
+                familylist.set(x, family);
+                response.sendError(HttpServletResponse.SC_OK, "Udana zmiana parametrów");
+                return;
+            }
+            if(familylist.size()-1 == x)
+            {
+                familylist.add(family);
+                response.sendError(HttpServletResponse.SC_OK, "Dodano nową rodzinę");
+            }
+        }
+    }
 
 }
