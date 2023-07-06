@@ -66,14 +66,18 @@ public class FamilyController
     @RequestMapping(value = "/CreateFamilyAll", method = RequestMethod.POST)
     public void createFamilyAll(@RequestBody Family family, HttpServletResponse response) throws IOException
     {
-        if(family.getName() != null && !family.getMembers().isEmpty())
+        if(family.getName().length()>1 && !family.getMembers().isEmpty())
         {
             familylist.add(family);
             response.sendError(HttpServletResponse.SC_OK,"Poprawnie dodano rodzinę!");
         }
+        else if (family.getName().length()<=1)
+        {
+            throw new FamilyLenghtException("Nazwa rodziny nie może być pusta");
+        }
         else
         {
-            response.sendError(HttpServletResponse.SC_CONFLICT, "Nazwa rodziny nie może być pusta oraz lista członków nie może być puta!");
+            response.sendError(HttpServletResponse.SC_CONFLICT, "Lista członków nie może być puta!");
         }
     }
 
