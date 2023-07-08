@@ -1,14 +1,18 @@
 package com.example.kurs;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
-@Entity
-@Data
-@Table(name = "members")
+@Setter
+@Getter
+@AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "members")
 public class MemberDB
 {
     @Id
@@ -22,8 +26,8 @@ public class MemberDB
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private Gender gender;
-    @JoinColumn(name = "family_id",nullable = true)
-    @OneToOne(mappedBy = "id")
+    @OneToOne
+    @JoinColumn(name = "family_id", nullable = true)
     private FamilyDB family_id;
 
 }
