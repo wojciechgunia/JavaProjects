@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -24,13 +25,18 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.URI;
 import java.util.*;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping(value= "/api/v1/family")
+@Slf4j
 public class FamilyController
 {
 
     FamilyRepository familyRepository;
+
+//    private static final Logger logger = Logger.getLogger(FamilyController.class.getName());
 
     public FamilyController(FamilyRepository familyRepository)
     {
@@ -55,8 +61,11 @@ public class FamilyController
     @Transactional
     public void createFamilyDB()
     {
+        log.info("Tworzenie rodziny");
         FamilyDB familyDB = new FamilyDB(11,"Kowalscy");
+        log.info("Utworzono rodzine o id: {}",familyDB.getId());
         familyRepository.save(familyDB);
+        log.warn("Zapisano rodzine");
     }
 
     @GetMapping("getFamilyDB")
