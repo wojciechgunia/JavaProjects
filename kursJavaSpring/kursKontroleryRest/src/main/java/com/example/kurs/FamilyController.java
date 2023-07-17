@@ -86,7 +86,6 @@ public class FamilyController
         return restTemplateApi.getQuotes();
     }
 
-
     @GetMapping("removeFamilyDB")
     public void removeFamily()
     {
