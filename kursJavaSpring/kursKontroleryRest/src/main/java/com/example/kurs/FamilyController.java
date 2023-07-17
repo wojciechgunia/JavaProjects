@@ -38,6 +38,9 @@ public class FamilyController
 
     FamilyRepository familyRepository;
 
+    @Autowired
+    FamilyMapper familyMapper;
+
 //    private static final Logger logger = Logger.getLogger(FamilyController.class.getName());
 
     public FamilyController(FamilyRepository familyRepository)
@@ -71,9 +74,9 @@ public class FamilyController
     }
 
     @GetMapping("getFamilyDB")
-    public List<FamilyDB> getFamilyDB()
+    public Family getFamilyDB() throws URISyntaxException
     {
-        return familyRepository.findListByName("Kowalscy");
+        return this.familyMapper.FamilyDbToFamily(familyRepository.findById(6L).get());
     }
 
     @GetMapping("getQuoteDB")

@@ -1,20 +1,18 @@
 package com.example.kurs;
 
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 import java.util.UUID;
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @ToString
 public class Family
 {
-    private final String uid;
+    private String uid;
     private String name;
     private List<Member> members;
 
