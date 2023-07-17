@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.io.File;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.*;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -72,6 +74,13 @@ public class FamilyController
     public List<FamilyDB> getFamilyDB()
     {
         return familyRepository.findListByName("Kowalscy");
+    }
+
+    @GetMapping("getQuoteDB")
+    public String getQuoteDB() throws URISyntaxException
+    {
+        RestTemplateApi restTemplateApi = new RestTemplateApi(new RestTemplate());
+        return restTemplateApi.getQuotes();
     }
 
 
