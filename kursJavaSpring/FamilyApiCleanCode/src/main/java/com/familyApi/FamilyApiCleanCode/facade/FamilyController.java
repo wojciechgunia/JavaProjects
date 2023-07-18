@@ -1,40 +1,38 @@
 package com.familyApi.FamilyApiCleanCode.facade;
 
-import com.familyApi.FamilyApiCleanCode.model.FamilyDB;
-import com.familyApi.FamilyApiCleanCode.model.Gender;
-import com.familyApi.FamilyApiCleanCode.model.MemberDB;
-import com.familyApi.FamilyApiCleanCode.model.MemberExtendedDTO;
+import com.familyApi.FamilyApiCleanCode.mediator.Mediator;
+import com.familyApi.FamilyApiCleanCode.model.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.familyApi.FamilyApiCleanCode.translator.TranslatorMemberDBToMemberDTO;
+
+import java.util.List;
 
 @RestController
 public class FamilyController {
 
-    @Autowired
-    TranslatorMemberDBToMemberDTO translatorMemberDBToMemberDTO;
-
-    @GetMapping("/test")
-    public MemberExtendedDTO test()
+    public FamilyController(Mediator mediator)
     {
-        FamilyDB familyDB = new FamilyDB(1, "Nowak");
-        MemberDB memberDB = new MemberDB(1,"Tomek",12, Gender.M, familyDB);
-        return translatorMemberDBToMemberDTO.toMemberExtendedDTO(memberDB);
+        this.mediator = mediator;
     }
-    public void saveFamily()
-    {
+    Mediator mediator;
 
+    @RequestMapping(method = RequestMethod.POST,value = "/save")
+    public void saveFamily(@RequestBody FamilyDTO familyDTO)
+    {
+        mediator.saveFamily(familyDTO);
     }
 
-    public void getFamilyByParam()
+    @RequestMapping(method = RequestMethod.GET,value = "/getbyname")
+    public List<FamilyDTO> getFamilyByParam(@RequestParam String name)
     {
-
+        return mediator.getByFamilyName(name);
     }
 
-    public void getAllFamily()
+    @RequestMapping(method = RequestMethod.GET,value = "/getAll")
+    public List<FamilyDTO> getAllFamily()
     {
-
+        return mediator.getAllFamily();
     }
 }
