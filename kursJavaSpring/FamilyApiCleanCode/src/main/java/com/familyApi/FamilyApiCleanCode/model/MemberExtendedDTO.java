@@ -11,5 +11,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MemberExtendedDTO extends MemberDTO
 {
-    private FamilyDTO family_id;
+    private FamilyDTO family;
 }
