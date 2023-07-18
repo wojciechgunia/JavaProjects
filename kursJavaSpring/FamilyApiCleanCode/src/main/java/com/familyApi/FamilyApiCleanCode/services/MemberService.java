@@ -3,6 +3,7 @@ package com.familyApi.FamilyApiCleanCode.services;
 import com.familyApi.FamilyApiCleanCode.model.Gender;
 import com.familyApi.FamilyApiCleanCode.model.MemberDB;
 import com.familyApi.FamilyApiCleanCode.repository.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

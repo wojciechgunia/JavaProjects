@@ -5,13 +5,11 @@ import com.familyApi.FamilyApiCleanCode.model.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.familyApi.FamilyApiCleanCode.translator.TranslatorMemberDBToMemberDTO;
 
 import java.util.List;
 
 @RestController
 public class FamilyController {
-
     public FamilyController(Mediator mediator)
     {
         this.mediator = mediator;
