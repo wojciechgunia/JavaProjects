@@ -12,4 +12,5 @@ public class Demo2Application {
 		SpringApplication.run(Demo2Application.class, args);
 	}
 
+
 }
