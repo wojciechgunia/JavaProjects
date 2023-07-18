@@ -1,9 +1,9 @@
 package com.familyApi.FamilyApiCleanCode.facade;
 
 import com.familyApi.FamilyApiCleanCode.mediator.Mediator;
-import com.familyApi.FamilyApiCleanCode.model.FamilyDTO;
 import com.familyApi.FamilyApiCleanCode.model.MemberDTO;
 import com.familyApi.FamilyApiCleanCode.model.MemberExtendedDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,7 +11,6 @@ import java.util.List;
 @RestController
 public class MemberController
 {
-
     public MemberController(Mediator mediator)
     {
         this.mediator = mediator;

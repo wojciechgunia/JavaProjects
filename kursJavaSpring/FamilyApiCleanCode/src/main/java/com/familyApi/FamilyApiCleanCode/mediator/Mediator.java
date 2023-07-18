@@ -7,6 +7,7 @@ import com.familyApi.FamilyApiCleanCode.translator.TranslatorFamilyDBtoFamilyDTO
 import com.familyApi.FamilyApiCleanCode.translator.TranslatorFamilyDTOtoFamilyDB;
 import com.familyApi.FamilyApiCleanCode.translator.TranslatorMemberDBToMemberDTO;
 import com.familyApi.FamilyApiCleanCode.translator.TranslatorMemberDTOtoMemberDB;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 @Component
 public class Mediator
 {
+
     public Mediator(TranslatorFamilyDBtoFamilyDTO translatorFamilyDBtoFamilyDTO, TranslatorMemberDBToMemberDTO translatorMemberDBToMemberDTO, TranslatorFamilyDTOtoFamilyDB translatorFamilyDTOtoFamilyDB, TranslatorMemberDTOtoMemberDB translatorMemberDTOtoMemberDB, FamilyService familyService, MemberService memberService)
     {
         this.translatorFamilyDBtoFamilyDTO = translatorFamilyDBtoFamilyDTO;
