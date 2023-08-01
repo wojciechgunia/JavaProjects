@@ -2,7 +2,9 @@ package com.example.auth.services;
 
 import com.example.auth.entity.*;
 import com.example.auth.repository.UserRepository;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +15,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
 
 @Service
 @RequiredArgsConstructor
@@ -38,9 +42,28 @@ public class UserService
         return jwtService.generateToken(username,exp);
     }
 
-    public void validateTocken(String token)
+    public void validateTocken(HttpServletRequest request) throws ExpiredJwtException, IllegalArgumentException
     {
-        jwtService.validateToken(token);
+        String token = null;
+        String refresh = null;
+        for (Cookie value : Arrays.stream(request.getCookies()).toList())
+        {
+            if (value.getName().equals("token"))
+            {
+                token = value.getValue();
+            } else if (value.getName().equals("refresh"))
+            {
+                refresh = value.getValue();
+            }
+        }
+        try
+        {
+            jwtService.validateToken(token);
+        }
+        catch(IllegalArgumentException | ExpiredJwtException e)
+        {
+            jwtService.validateToken(refresh);
+        }
     }
 
     public void register(UserRegisterDTO userRegisterDTO)

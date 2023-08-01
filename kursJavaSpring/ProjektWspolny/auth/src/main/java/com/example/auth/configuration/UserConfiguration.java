@@ -29,7 +29,7 @@ public class UserConfiguration
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
     {
-        return http.csrf().disable().authorizeHttpRequests().requestMatchers("/api/v1/auth/register").permitAll().and().build();
+        return http.csrf().disable().authorizeHttpRequests().requestMatchers("/api/v1/auth/register","/api/v1/auth/login","/api/v1/auth/validate").permitAll().and().build();
     }
     @Bean
     public PasswordEncoder passwordEncoder()
