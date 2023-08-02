@@ -10,7 +10,7 @@ public class CookieService
     {
         Cookie cookie = new Cookie(name,value);
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(exp);
+        cookie.setMaxAge(exp/1000);
         return cookie;
     }
 }

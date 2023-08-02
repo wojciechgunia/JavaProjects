@@ -40,6 +40,17 @@ public class JwtService
         return createToken(claims,username,exp);
     }
 
+    public String refreshToken(final String token,int exp)
+    {
+        String username = getSubject(token);
+        return generateToken(username,exp);
+    }
+
+    private String getSubject(String token)
+    {
+        return Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody().getSubject();
+    }
+
     private String createToken(Map<String, Object> claims, String username, int exp)
     {
         return Jwts.builder().setClaims(claims).setSubject(username).setIssuedAt(new Date(System.currentTimeMillis())).setExpiration(new Date(System.currentTimeMillis()+exp)).signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
