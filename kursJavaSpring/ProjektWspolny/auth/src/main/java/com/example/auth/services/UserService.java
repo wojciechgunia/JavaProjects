@@ -48,15 +48,23 @@ public class UserService
     {
         String token = null;
         String refresh = null;
-        for (Cookie value : Arrays.stream(request.getCookies()).toList())
+        if (request.getCookies() != null)
         {
-            if (value.getName().equals("Authorization"))
+            for (Cookie value : Arrays.stream(request.getCookies()).toList())
             {
-                token = value.getValue();
-            } else if (value.getName().equals("Refresh"))
-            {
-                refresh = value.getValue();
+                if (value.getName().equals("Authorization"))
+                {
+                    token = value.getValue();
+                }
+                else if (value.getName().equals("Refresh"))
+                {
+                    refresh = value.getValue();
+                }
             }
+        }
+        else
+        {
+            throw new IllegalArgumentException("Token can't be null");
         }
         try
         {
