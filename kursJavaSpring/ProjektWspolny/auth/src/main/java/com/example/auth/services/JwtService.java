@@ -46,7 +46,7 @@ public class JwtService
         return generateToken(username,exp);
     }
 
-    private String getSubject(String token)
+    public String getSubject(String token)
     {
         return Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody().getSubject();
     }

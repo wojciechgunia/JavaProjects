@@ -46,6 +46,18 @@ public class AuthController
         return userService.login(response, user);
     }
 
+    @RequestMapping(path="/auto-login",method = RequestMethod.GET)
+    public ResponseEntity<?> autoLogin(HttpServletRequest request, HttpServletResponse response)
+    {
+        return userService.loginByToken(request,response);
+    }
+
+    @RequestMapping(path="/logged-in",method = RequestMethod.GET)
+    public ResponseEntity<?> loggedIn(HttpServletRequest request, HttpServletResponse response)
+    {
+        return userService.loggedIn(request,response);
+    }
+
     @RequestMapping(path="/validate",method = RequestMethod.GET)
     public ResponseEntity<AuthResponse> validateToken(HttpServletRequest request, HttpServletResponse response)
     {

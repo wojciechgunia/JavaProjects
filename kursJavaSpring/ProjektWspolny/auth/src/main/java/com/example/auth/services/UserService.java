@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -103,11 +104,14 @@ public class UserService
         saveUser(user);
     }
 
-    public ResponseEntity<?> login(HttpServletResponse response, User authRequest) {
+    public ResponseEntity<?> login(HttpServletResponse response, User authRequest)
+    {
         User user = userRepository.findUserByLogin(authRequest.getUsername()).orElse(null);
-        if (user != null) {
+        if (user != null)
+        {
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-            if (authenticate.isAuthenticated()) {
+            if (authenticate.isAuthenticated())
+            {
                 Cookie refresh = cookieService.generateCookie("Refresh", generateToken(authRequest.getUsername(),refreshExp), refreshExp);
                 Cookie cookie = cookieService.generateCookie("Authorization", generateToken(authRequest.getUsername(),exp), exp);
                 response.addCookie(cookie);
@@ -119,11 +123,52 @@ public class UserService
                                 .email(user.getEmail())
                                 .role(user.getRole())
                                 .build());
-            } else {
+            }
+            else
+            {
                 return ResponseEntity.ok(new AuthResponse(Code.A1));
             }
         }
         return ResponseEntity.ok(new AuthResponse(Code.A2));
     }
 
+    public ResponseEntity<?> loginByToken(HttpServletRequest request, HttpServletResponse response)
+    {
+        try
+        {
+            validateTocken(request,response);
+            String refresh=null;
+            for (Cookie value : Arrays.stream(request.getCookies()).toList())
+            {
+                if (value.getName().equals("Refresh"))
+                {
+                    refresh = value.getValue();
+                }
+            }
+            String login = jwtService.getSubject(refresh);
+            User user = (User) userRepository.findUserByLoginAndLockAndEnabled(login).orElse(null);
+            if (user != null)
+            {
+                return ResponseEntity.ok(UserRegisterDTO.builder().login(user.getUsername()).email(user.getEmail()).role(user.getRole()).build());
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthResponse(Code.A1));
+        }
+        catch(ExpiredJwtException | IllegalArgumentException e)
+        {
+            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthResponse(Code.A3));
+        }
+    }
+
+    public ResponseEntity<LoginResponse> loggedIn(HttpServletRequest request, HttpServletResponse response)
+    {
+        try
+        {
+            validateTocken(request,response);
+            return  ResponseEntity.ok(new LoginResponse(true));
+        }
+        catch(ExpiredJwtException | IllegalArgumentException e)
+        {
+            return  ResponseEntity.ok(new LoginResponse(false));
+        }
+    }
 }
