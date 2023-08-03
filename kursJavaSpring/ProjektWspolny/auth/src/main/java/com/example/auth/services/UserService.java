@@ -1,6 +1,7 @@
 package com.example.auth.services;
 
 import com.example.auth.entity.*;
+import com.example.auth.exceptions.UserDontExistException;
 import com.example.auth.exceptions.UserExistingWithEmail;
 import com.example.auth.exceptions.UserExistingWithName;
 import com.example.auth.repository.UserRepository;
@@ -30,6 +31,7 @@ public class UserService
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final CookieService cookieService;
+    private final EmailService emailService;
     @Value("${jwt.exp}")
     private int exp;
     @Value("${jwt.refresh.exp}")
@@ -90,6 +92,7 @@ public class UserService
             throw new UserExistingWithEmail("Użytkownik o tym adresie e-mail już istnieje");
         });
         User user = new User();
+        user.setLock(true);
         user.setLogin(userRegisterDTO.getLogin());
         user.setEmail(userRegisterDTO.getEmail());
         user.setPassword(userRegisterDTO.getPassword());
@@ -102,11 +105,12 @@ public class UserService
             user.setRole(Role.USER);
         }
         saveUser(user);
+        emailService.sendActivation(user);
     }
 
     public ResponseEntity<?> login(HttpServletResponse response, User authRequest)
     {
-        User user = userRepository.findUserByLogin(authRequest.getUsername()).orElse(null);
+        User user = userRepository.findUserByLoginAndLockAndEnabled(authRequest.getUsername()).orElse(null);
         if (user != null)
         {
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
@@ -170,5 +174,19 @@ public class UserService
         {
             return  ResponseEntity.ok(new LoginResponse(false));
         }
+    }
+
+    public void activateUser(String uid) throws UserDontExistException
+    {
+        User user = userRepository.findUserByUuid(uid).orElse(null);
+        if(user != null)
+        {
+            user.setLock(false);
+            user.setEnabled(true);
+            userRepository.save(user);
+            return;
+        }
+        throw new UserDontExistException("User don't exist");
+
     }
 }
