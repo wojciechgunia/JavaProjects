@@ -26,7 +26,7 @@ public class ResetOperationService
         resetOperations.setCreateDate(new Timestamp(System.currentTimeMillis()).toString());
         resetOperations.setUser(user);
 
-        resetOperationsRepository.deleteAllUser(user);
+        resetOperationsRepository.deleteByUser(user);
 
         return resetOperationsRepository.saveAndFlush(resetOperations);
     }

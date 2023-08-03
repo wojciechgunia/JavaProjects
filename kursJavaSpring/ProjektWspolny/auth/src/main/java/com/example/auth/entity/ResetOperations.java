@@ -19,7 +19,7 @@ public class ResetOperations
     @SequenceGenerator(name="resetoperations_id_seq", sequenceName = "resetoperations_id_seq",allocationSize = 1)
     private long id;
 
-    @ManyToMany
+    @OneToOne
     @JoinColumn(name = "users")
     private User user;
 

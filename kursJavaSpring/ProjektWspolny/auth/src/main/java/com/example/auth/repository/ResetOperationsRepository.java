@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface ResetOperationsRepository extends JpaRepository<ResetOperations, Long>
 {
     @Modifying
-    void deleteAllUser(User user);
+    void deleteByUser(User user);
 
     Optional<ResetOperations> findByUid(String uid);
 
