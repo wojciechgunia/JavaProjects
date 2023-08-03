@@ -189,4 +189,27 @@ public class UserService
         throw new UserDontExistException("User don't exist");
 
     }
+
+    public void recoveryPassword(String email) throws  UserDontExistException
+    {
+        User user = userRepository.findUserByEmail(email).orElse(null);
+        if(user != null)
+        {
+            emailService.sendPasswordRecovery(user);
+            return;
+        }
+        throw new UserDontExistException("User don't exist");
+    }
+
+    public void resetPassword(ChangePasswordData changePasswordData) throws UserDontExistException
+    {
+        User user = userRepository.findUserByUuid(changePasswordData.getUid()).orElse(null);
+        if(user != null)
+        {
+            user.setPassword(changePasswordData.getPassword());
+            saveUser(user);
+            return;
+        }
+        throw new UserDontExistException("User don't exist");
+    }
 }
