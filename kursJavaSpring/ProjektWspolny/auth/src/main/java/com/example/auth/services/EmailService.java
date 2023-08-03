@@ -38,12 +38,12 @@ public class EmailService
         }
     }
 
-    public void sendPasswordRecovery(User user)
+    public void sendPasswordRecovery(User user, String uid)
     {
         try
         {
             String html = Files.toString(recoveryTemplate.getFile(), Charsets.UTF_8);
-            html = html.replace("https://google.com",fontendUrl+"/odzyskaj-haslo/"+user.getUuid());
+            html = html.replace("https://google.com",fontendUrl+"/odzyskaj-haslo/"+uid);
             emailConfiguration.sendMail(user.getEmail(), html,"Odzyskanie hasła",true);
         }
         catch (IOException e)
