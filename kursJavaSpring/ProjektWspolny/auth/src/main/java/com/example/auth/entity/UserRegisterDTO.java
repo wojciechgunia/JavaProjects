@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 public class UserRegisterDTO
 {
-    @Length(min = 5, max = 50, message = "Login powinien mieć od 5 do 50 znaków")
+    @Length(min = 3, max = 50, message = "Login powinien mieć od 3 do 50 znaków")
     private String login;
     @Email
     private String email;
