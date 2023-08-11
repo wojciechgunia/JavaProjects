@@ -66,6 +66,6 @@ public class Carousel
 
     private void initAuthCarousel() throws NullPointerException
     {
-        instances = eurekaClient.getApplication("AUTH-SERVICE").getInstances();
+        instances = this.eurekaClient.getApplication("AUTH-SERVICE").getInstances();
     }
 }
