@@ -47,6 +47,12 @@ public class AuthController
         return userService.login(response, user);
     }
 
+    @RequestMapping(path = "/logout",method = RequestMethod.GET)
+    public ResponseEntity<?> logout( HttpServletResponse response,HttpServletRequest request){
+        return userService.logout(request, response);
+    }
+
+
     @RequestMapping(path="/auto-login",method = RequestMethod.GET)
     public ResponseEntity<?> autoLogin(HttpServletRequest request, HttpServletResponse response)
     {

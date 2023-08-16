@@ -1,4 +1,4 @@
-CREATE TABLE "resetopetations"
+CREATE TABLE "resetoperations"
 (
     id serial primary key,
     users integer REFERENCES "users" (id),

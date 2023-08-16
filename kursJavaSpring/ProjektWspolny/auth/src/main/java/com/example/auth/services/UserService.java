@@ -224,6 +224,19 @@ public class UserService
             }
         }
 
-        throw new UserDontExistException("User don't exist");
+        throw new UserDontExistException("This token has expired");
     }
+
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response){
+        Cookie cookie = cookieService.removeCookie(request.getCookies(),"Authorization");
+        if (cookie != null){
+            response.addCookie(cookie);
+        }
+        cookie = cookieService.removeCookie(request.getCookies(),"Refresh");
+        if (cookie != null){
+            response.addCookie(cookie);
+        }
+        return  ResponseEntity.ok(new AuthResponse(Code.SUCCESS));
+    }
+
 }
