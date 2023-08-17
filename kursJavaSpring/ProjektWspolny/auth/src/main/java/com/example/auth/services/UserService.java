@@ -73,6 +73,7 @@ public class UserService
         }
         else
         {
+            log.info("Token can't be null, cant login");
             throw new IllegalArgumentException("Token can't be null");
         }
         try
@@ -92,9 +93,11 @@ public class UserService
     public void register(UserRegisterDTO userRegisterDTO) throws UserExistingWithEmail,UserExistingWithName
     {
         userRepository.findUserByLogin(userRegisterDTO.getLogin()).ifPresent(value->{
+            log.info("User alredy exist with this name");
             throw new UserExistingWithName("Użytkownik o tej nazwie już istnieje");
         });
         userRepository.findUserByEmail(userRegisterDTO.getEmail()).ifPresent(value->{
+            log.info("User alredy exist with this email");
             throw new UserExistingWithEmail("Użytkownik o tym adresie e-mail już istnieje");
         });
         User user = new User();
@@ -116,6 +119,7 @@ public class UserService
 
     public ResponseEntity<?> login(HttpServletResponse response, User authRequest)
     {
+        log.info("--START Login Service");
         User user = userRepository.findUserByLoginAndLockAndEnabled(authRequest.getUsername()).orElse(null);
         if (user != null)
         {
@@ -126,6 +130,7 @@ public class UserService
                 Cookie cookie = cookieService.generateCookie("Authorization", generateToken(authRequest.getUsername(),exp), exp);
                 response.addCookie(cookie);
                 response.addCookie(refresh);
+                log.info("--STOP Login Service");
                 return ResponseEntity.ok(
                         UserRegisterDTO
                                 .builder()
@@ -136,9 +141,12 @@ public class UserService
             }
             else
             {
+                log.info("--STOP Login Service");
                 return ResponseEntity.ok(new AuthResponse(Code.A1));
             }
         }
+        log.info("User dont exist");
+        log.info("--STOP Login Service");
         return ResponseEntity.ok(new AuthResponse(Code.A2));
     }
 
@@ -161,10 +169,12 @@ public class UserService
             {
                 return ResponseEntity.ok(UserRegisterDTO.builder().login(user.getUsername()).email(user.getEmail()).role(user.getRole()).build());
             }
+            log.info("Cant login user dont exist");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthResponse(Code.A1));
         }
         catch(ExpiredJwtException | IllegalArgumentException e)
         {
+            log.info("Token expired or is null, cant login");
             return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthResponse(Code.A3));
         }
     }
@@ -192,6 +202,7 @@ public class UserService
             userRepository.save(user);
             return;
         }
+        log.info("User don't exist");
         throw new UserDontExistException("User don't exist");
 
     }
@@ -205,6 +216,7 @@ public class UserService
             emailService.sendPasswordRecovery(user,resetOperations.getUid());
             return;
         }
+        log.info("User don't exist");
         throw new UserDontExistException("User don't exist");
     }
 
@@ -223,11 +235,12 @@ public class UserService
                 return;
             }
         }
-
+        log.info("User don't exist");
         throw new UserDontExistException("This token has expired");
     }
 
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response){
+        log.info("Delete all cookies");
         Cookie cookie = cookieService.removeCookie(request.getCookies(),"Authorization");
         if (cookie != null){
             response.addCookie(cookie);

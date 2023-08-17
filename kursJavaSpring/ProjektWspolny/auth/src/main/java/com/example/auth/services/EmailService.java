@@ -3,6 +3,7 @@ package com.example.auth.services;
 import com.example.auth.configuration.EmailConfiguration;
 import com.example.auth.entity.User;
 import com.google.common.base.Charsets;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import lombok.RequiredArgsConstructor;
 import com.google.common.io.Files;
@@ -13,6 +14,7 @@ import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmailService
 {
     private final EmailConfiguration emailConfiguration;
@@ -26,6 +28,7 @@ public class EmailService
 
     public void sendActivation(User user)
     {
+        log.info("--START Send Activation");
         try
         {
             String html = Files.toString(activeTemplate.getFile(), Charsets.UTF_8);
@@ -34,12 +37,15 @@ public class EmailService
         }
         catch (IOException e)
         {
+            log.info("Cant send mail");
             throw new RuntimeException(e);
         }
+        log.info("--STOP Send Activation");
     }
 
     public void sendPasswordRecovery(User user, String uid)
     {
+        log.info("--START Send Password Recovery");
         try
         {
             String html = Files.toString(recoveryTemplate.getFile(), Charsets.UTF_8);
@@ -48,7 +54,9 @@ public class EmailService
         }
         catch (IOException e)
         {
+            log.info("Cant send mail");
             throw new RuntimeException(e);
         }
+        log.info("--STOP Send Password Recovery");
     }
 }
