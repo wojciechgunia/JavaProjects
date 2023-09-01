@@ -13,6 +13,7 @@ public class ProductMediator
 
     public ResponseEntity<?> getProduct(int page, int limit)
     {
-        return null;
+        long totalCount = productService.countActiveProducts();
+        return ResponseEntity.ok().header("X-Total-Count",String.valueOf(totalCount)).body("");
     }
 }
