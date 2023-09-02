@@ -6,10 +6,7 @@ import com.example.product.repository.CategoryRepository;
 import com.example.product.repository.ProductRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +38,7 @@ public class ProductService
         return null;
     }
 
-    public List<ProductEntity> getProduct(String name, String category, Float priceMin, Float priceMax, String data, int page, int limit)
+    public List<ProductEntity> getProduct(String name, String category, Float priceMin, Float priceMax, String data, int page, int limit, String sort, String order)
     {
         CriteriaBuilder criteriaBuilder = entityMenager.getCriteriaBuilder();
         CriteriaQuery<ProductEntity> query = criteriaBuilder.createQuery(ProductEntity.class);
@@ -56,6 +53,40 @@ public class ProductService
         page=lowerThanOne(page);
         limit=lowerThanOne(limit);
         List<Predicate> predicates = prepareQuery(name,category,priceMin,priceMax,criteriaBuilder,root);
+
+        if(!order.isEmpty() && !sort.isEmpty())
+        {
+            String column = null;
+            switch (sort)
+            {
+                case "name":
+                    column="name";
+                    break;
+
+                case "category":
+                    column="category";
+                    break;
+
+                case "date":
+                    column="createAt";
+                    break;
+
+                default:
+                    column="price";
+                    break;
+            }
+            Order orderQuery;
+            if(order.equals("desc"))
+            {
+                orderQuery = criteriaBuilder.desc(root.get(column));
+            }
+            else
+            {
+                orderQuery = criteriaBuilder.asc(root.get(column));
+            }
+            query.orderBy(orderQuery);
+        }
+
         query.where(predicates.toArray(new Predicate[0]));
         return entityMenager.createQuery(query).setFirstResult((page-1)*limit).setMaxResults(limit).getResultList();
     }

@@ -14,10 +14,10 @@ public class ProductMediator
 {
     private final ProductService productService;
 
-    public ResponseEntity<?> getProduct(int page, int limit, String name, String category, Float price_min, Float price_max, String data)
+    public ResponseEntity<?> getProduct(int page, int limit, String name, String category, Float price_min, Float price_max, String data, String sort, String order)
     {
         long totalCount = productService.countActiveProducts(name, category, price_min, price_max);
-        List<ProductEntity> product = productService.getProduct(name, category, price_min, price_max, data, page, limit);
+        List<ProductEntity> product = productService.getProduct(name, category, price_min, price_max, data, page, limit,sort,order);
         return ResponseEntity.ok().header("X-Total-Count",String.valueOf(totalCount)).body(product);
     }
 }
