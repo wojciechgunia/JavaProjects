@@ -28,8 +28,13 @@ public class ProductService
     @PersistenceContext
     EntityManager entityMenager;
 
-    public long countActiveProducts(){
-        return productRepository.countActiveProducts();
+    public long countActiveProducts(String name, String category, Float priceMin, Float priceMax){
+        CriteriaBuilder criteriaBuilder = entityMenager.getCriteriaBuilder();
+        CriteriaQuery<Long> query = criteriaBuilder.createQuery(Long.class);
+        Root<ProductEntity> root = query.from(ProductEntity.class);
+        List<Predicate> predicates = prepareQuery(name,category,priceMin,priceMax,criteriaBuilder,root);
+        query.select(criteriaBuilder.count(root)).where(predicates.toArray(new Predicate[0]));
+        return entityMenager.createQuery(query).getSingleResult();
     }
     public ProductDTO getProductDTO()
     {
@@ -41,13 +46,22 @@ public class ProductService
         CriteriaBuilder criteriaBuilder = entityMenager.getCriteriaBuilder();
         CriteriaQuery<ProductEntity> query = criteriaBuilder.createQuery(ProductEntity.class);
         Root<ProductEntity> root = query.from(ProductEntity.class);
-        List<Predicate> predicates = new ArrayList<>();
+
         if (data != null && !data.equals("") && name != null && !name.trim().equals(""))
         {
             DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
             LocalDate date = LocalDate.parse(data, inputFormatter);
             return productRepository.findByNameAndCreateAt(name, date);
         }
+        List<Predicate> predicates = prepareQuery(name,category,priceMin,priceMax,criteriaBuilder,root);
+        query.where(predicates.toArray(new Predicate[0]));
+
+        return entityMenager.createQuery(query).getResultList();
+    }
+
+    private List<Predicate> prepareQuery(String name, String category, Float priceMin, Float priceMax, CriteriaBuilder criteriaBuilder,Root<ProductEntity> root)
+    {
+        List<Predicate> predicates = new ArrayList<>();
         if(name != null && !name.trim().equals(""))
         {
             predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%"));
@@ -65,8 +79,6 @@ public class ProductService
         {
             predicates.add(criteriaBuilder.lessThan(root.get("price"),priceMax+0.01));
         }
-        query.where(predicates.toArray(new Predicate[0]));
-
-        return entityMenager.createQuery(query).getResultList();
+        return predicates;
     }
 }
