@@ -23,7 +23,7 @@ public class ProductController
                                  @RequestParam(required = false) String _category,
                                  @RequestParam(required = false) Float price_min,
                                  @RequestParam(required = false) Float price_max,
-                                 @RequestParam(required = false,defaultValue = "0") int _page,
+                                 @RequestParam(required = false,defaultValue = "1") int _page,
                                  @RequestParam(required = false,defaultValue = "10") int _limit)
 
     {
