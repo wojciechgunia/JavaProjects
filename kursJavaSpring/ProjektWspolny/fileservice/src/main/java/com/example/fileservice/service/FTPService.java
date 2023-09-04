@@ -27,26 +27,48 @@ public class FTPService
     @Value("ftp.port")
     private int FTP_PORT;
 
-    public ImageEntity uploadFileToFTP(MultipartFile file)
+    private FTPClient getFTPConnection() throws IOException
+    {
+        FTPClient ftpClient = new FTPClient();
+        ftpClient.connect(FTP_SERVER,FTP_PORT);
+        ftpClient.login(FTP_USERNAME,FTP_USERNAME);
+
+        ftpClient.enterLocalPassiveMode();
+        ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+        return ftpClient;
+    }
+
+    private void createFolder(FTPClient ftpClient) throws IOException
+    {
+        ftpClient.makeDirectory(FTP_ORIGIN_DIRECTORY+"/"+LocalDate.now());
+    }
+
+    private boolean streamFile(MultipartFile file, FTPClient ftpClient, String remoteFilePath) throws IOException
+    {
+        InputStream inputStream = file.getInputStream();
+        boolean uploaded = ftpClient.storeFile(remoteFilePath,inputStream);
+        inputStream.close();
+        return uploaded;
+    }
+
+
+    public ImageEntity uploadFileToFTP(MultipartFile file) throws RuntimeException
     {
         try
         {
-            FTPClient ftpClient = new FTPClient();
-            ftpClient.connect(FTP_SERVER,FTP_PORT);
-            ftpClient.login(FTP_USERNAME,FTP_USERNAME);
-
-            ftpClient.enterLocalPassiveMode();
-            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-            String remoteFilePath = FTP_ORIGIN_DIRECTORY + LocalDate.now() + file.getOriginalFilename();
-            InputStream inputStream = file.getInputStream();
-            boolean uploaded = ftpClient.storeFile(remoteFilePath,inputStream);
-            inputStream.close();
-            ftpClient.logout();
-            ftpClient.disconnect();
+            FTPClient ftpClient = getFTPConnection();
+            String remoteFilePath = FTP_ORIGIN_DIRECTORY + "/" + LocalDate.now() + "/" + file.getOriginalFilename();
+            boolean uploaded = streamFile(file, ftpClient, remoteFilePath);
             if(!uploaded)
             {
-                throw new RuntimeException();
+                createFolder(ftpClient);
+                if(!streamFile(file, ftpClient, remoteFilePath))
+                {
+                    throw new RuntimeException();
+                }
             }
+            ftpClient.logout();
+            ftpClient.disconnect();
             return ImageEntity.builder().path(remoteFilePath).uid(UUID.randomUUID().toString()).createAt(LocalDate.now()).isUsed(false).build();
         }
         catch (IOException e)
@@ -54,5 +76,4 @@ public class FTPService
             throw new RuntimeException(e);
         }
     }
-
 }
