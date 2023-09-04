@@ -3,6 +3,7 @@ package com.example.fileservice.service;
 import com.example.fileservice.entity.ImageEntity;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,10 +16,15 @@ import java.util.UUID;
 public class FTPService
 {
 
+    @Value("ftp.server")
     private String FTP_SERVER;
+    @Value("ftp.username")
     private String FTP_USERNAME;
+    @Value("ftp.password")
     private String FTP_PASSWORD;
+    @Value("ftp.origin")
     private String FTP_ORIGIN_DIRECTORY;
+    @Value("ftp.port")
     private int FTP_PORT;
 
     public ImageEntity uploadFileToFTP(MultipartFile file)
