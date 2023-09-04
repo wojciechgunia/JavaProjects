@@ -6,14 +6,11 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Builder
 @Getter
 @Setter
-public class ImageEntity
+@Builder
+public class ImageDTO
 {
-    private long id;
     private String uid;
-    private String path;
-    private boolean isUsed;
     private LocalDate createAt;
 }
