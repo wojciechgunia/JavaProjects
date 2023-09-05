@@ -8,6 +8,9 @@ import com.example.fileservice.service.FTPService;
 import com.example.fileservice.service.ImageService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -61,8 +64,35 @@ public class MediatorImage
         }
         catch (FtpConnectionException e1)
         {
-            return ResponseEntity.status(400).body(new ImageResponse("File couldn't be saved"));
+            return ResponseEntity.status(400).body(new ImageResponse("File couldn't be deleted"));
         }
 
+    }
+
+    public ResponseEntity<?> getImage(String uid)
+    {
+        try
+        {
+            ImageEntity imageEntity = imageService.findByUid(uid);
+            if (imageEntity != null)
+            {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.IMAGE_PNG);
+                return new ResponseEntity<>(ftpService.getFile(imageEntity).toByteArray(),headers, HttpStatus.OK);
+            }
+            else
+            {
+                throw new IOException("File don't exist");
+            }
+
+        }
+        catch (IOException e)
+        {
+            return ResponseEntity.status(400).body(new ImageResponse("File don't exist"));
+        }
+        catch (FtpConnectionException e1)
+        {
+            return ResponseEntity.status(400).body(new ImageResponse("File couldn't be downloaded"));
+        }
     }
 }

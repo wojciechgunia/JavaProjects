@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping(value = "/api/v1/image")
 @RequiredArgsConstructor
@@ -26,5 +28,11 @@ public class ImageController
     public ResponseEntity<ImageResponse> deleteFile(@RequestParam String uid)
     {
         return mediatorImage.deleteImage(uid);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<?> getFile(@RequestParam String uid)
+    {
+        return mediatorImage.getImage(uid);
     }
 }
