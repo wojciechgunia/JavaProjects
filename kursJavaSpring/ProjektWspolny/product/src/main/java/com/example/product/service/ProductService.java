@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -121,5 +122,18 @@ public class ProductService
             predicates.add(criteriaBuilder.lessThan(root.get("price"),priceMax+0.01));
         }
         return predicates;
+    }
+
+    public void createProduct(ProductEntity productEntity)
+    {
+        if(productEntity != null)
+        {
+            productEntity.setCreateAt(LocalDate.now());
+            productEntity.setUid(UUID.randomUUID().toString());
+            productEntity.setActivate(true);
+            productRepository.save(productEntity);
+            return;
+        }
+        throw new RuntimeException();
     }
 }
