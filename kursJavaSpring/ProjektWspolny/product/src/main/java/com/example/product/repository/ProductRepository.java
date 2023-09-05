@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long>
@@ -15,4 +16,6 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>
     long countActiveProducts();
 
     List<ProductEntity> findByNameAndCreateAt(String name, LocalDate date);
+
+    Optional<ProductEntity> findByUid(String uid);
 }

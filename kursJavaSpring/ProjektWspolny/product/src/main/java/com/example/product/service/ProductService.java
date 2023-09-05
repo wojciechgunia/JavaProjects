@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.net.URI;
@@ -165,4 +166,24 @@ public class ProductService
         }
     }
 
+    @Transactional
+    public void delete(String uid) throws RuntimeException
+    {
+        productRepository.findByUid(uid).ifPresentOrElse(value -> {
+            value.setActivate(false);
+            productRepository.save(value);
+            for(String image: value.getImageUrls())
+            {
+                deleteImages(image);
+            }
+        },()->{
+            throw new RuntimeException();
+        });
+    }
+
+    private void deleteImages(String uid)
+    {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.delete(FILE_SERVICE+"?uid="+uid);
+    }
 }

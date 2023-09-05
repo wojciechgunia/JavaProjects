@@ -36,4 +36,10 @@ public class ProductController
         return productMediator.saveProduct(productFormDTO);
     }
 
+    @RequestMapping(method = RequestMethod.DELETE)
+    public ResponseEntity<Response> delete(@RequestParam String uid)
+    {
+        return productMediator.deleteProduct(uid);
+    }
+
 }
