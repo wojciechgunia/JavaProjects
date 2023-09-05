@@ -15,4 +15,9 @@ public class ImageService
     {
         return imageRepository.saveAndFlush(imageEntity);
     }
+
+    public ImageEntity findByUid(String uid)
+    {
+        return imageRepository.findByUid(uid).orElse(null);
+    }
 }

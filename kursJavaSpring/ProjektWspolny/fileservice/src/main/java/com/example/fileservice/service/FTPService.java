@@ -26,12 +26,12 @@ public class FTPService
     @Value("ftp.origin")
     private String FTP_ORIGIN_DIRECTORY;
     @Value("ftp.port")
-    private int FTP_PORT;
+    private String FTP_PORT;
 
     private FTPClient getFTPConnection() throws IOException
     {
         FTPClient ftpClient = new FTPClient();
-        ftpClient.connect(FTP_SERVER,FTP_PORT);
+        ftpClient.connect(FTP_SERVER,Integer.parseInt(FTP_PORT));
         ftpClient.login(FTP_USERNAME,FTP_USERNAME);
 
         ftpClient.enterLocalPassiveMode();
@@ -76,5 +76,14 @@ public class FTPService
         {
             throw new FtpConnectionException(e);
         }
+    }
+
+    public boolean deleteFile(String path) throws IOException
+    {
+        FTPClient ftpClient = getFTPConnection();
+        boolean deleted = ftpClient.deleteFile(path);
+        ftpClient.logout();
+        ftpClient.disconnect();
+        return deleted;
     }
 }

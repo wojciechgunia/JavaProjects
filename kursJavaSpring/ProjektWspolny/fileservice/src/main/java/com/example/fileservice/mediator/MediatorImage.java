@@ -16,7 +16,6 @@ import java.io.IOException;
 
 @Component
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class MediatorImage
 {
     private final FTPService ftpService;
@@ -40,4 +39,30 @@ public class MediatorImage
         }
     }
 
+    public ResponseEntity<ImageResponse> deleteImage(String uid)
+    {
+        try
+        {
+            ImageEntity imageEntity = imageService.findByUid(uid);
+            if (imageEntity != null)
+            {
+                ftpService.deleteFile(imageEntity.getPath());
+                return ResponseEntity.ok(new ImageResponse("File deleted success"));
+            }
+            else
+            {
+                throw new IOException("File don't exist");
+            }
+
+        }
+        catch (IOException e)
+        {
+            return ResponseEntity.status(400).body(new ImageResponse("File don't exist"));
+        }
+        catch (FtpConnectionException e1)
+        {
+            return ResponseEntity.status(400).body(new ImageResponse("File couldn't be saved"));
+        }
+
+    }
 }
