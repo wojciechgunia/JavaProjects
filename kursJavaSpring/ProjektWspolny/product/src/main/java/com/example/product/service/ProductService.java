@@ -8,8 +8,15 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,6 +27,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ProductService
 {
+    @Value("${file-service.url}")
+    private String FILE_SERVICE;
+
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
 
@@ -124,6 +134,7 @@ public class ProductService
         return predicates;
     }
 
+    @Transactional
     public void createProduct(ProductEntity productEntity)
     {
         if(productEntity != null)
@@ -132,8 +143,26 @@ public class ProductService
             productEntity.setUid(UUID.randomUUID().toString());
             productEntity.setActivate(true);
             productRepository.save(productEntity);
+            for (String uid: productEntity.getImageUrls())
+            {
+                activateImage(uid);
+            }
             return;
         }
         throw new RuntimeException();
     }
+
+    private void activateImage(String uid)
+    {
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(FILE_SERVICE+"?uid="+uid)).method("PATCH",HttpRequest.BodyPublishers.noBody()).build();
+        try
+        {
+            HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        }
+        catch (IOException | InterruptedException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
