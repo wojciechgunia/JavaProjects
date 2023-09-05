@@ -28,9 +28,13 @@ public class MediatorImage
     {
         try
         {
-            ImageEntity imageEntity = ftpService.uploadFileToFTP(multipartFile);
-            imageService.save(imageEntity);
-            return ResponseEntity.ok(ImageDTO.builder().uid(imageEntity.getUid()).createAt(imageEntity.getCreateAt()).build());
+            if(multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".")+1).equals("png"))
+            {
+                ImageEntity imageEntity = ftpService.uploadFileToFTP(multipartFile);
+                imageService.save(imageEntity);
+                return ResponseEntity.ok(ImageDTO.builder().uid(imageEntity.getUid()).createAt(imageEntity.getCreateAt()).build());
+            }
+            return ResponseEntity.status(400).body(new ImageResponse("Wrong file type"));
         }
         catch (IOException e)
         {
@@ -93,6 +97,21 @@ public class MediatorImage
         catch (FtpConnectionException e1)
         {
             return ResponseEntity.status(400).body(new ImageResponse("File couldn't be downloaded"));
+        }
+    }
+
+    public ResponseEntity<ImageResponse> activeImage(String uid)
+    {
+        ImageEntity imageEntity = imageService.findByUid(uid);
+        if (imageEntity != null)
+        {
+            imageEntity.setUsed(true);
+            imageService.save(imageEntity);
+            return ResponseEntity.ok(new ImageResponse("Image successfuly activated"));
+        }
+        else
+        {
+            return ResponseEntity.status(400).body(new ImageResponse("File don't exist"));
         }
     }
 }

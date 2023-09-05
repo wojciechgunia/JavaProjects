@@ -35,4 +35,10 @@ public class ImageController
     {
         return mediatorImage.getImage(uid);
     }
+
+    @RequestMapping(method = RequestMethod.PATCH)
+    public ResponseEntity<ImageResponse> activeImage(@RequestParam String uid)
+    {
+        return mediatorImage.activeImage(uid);
+    }
 }
