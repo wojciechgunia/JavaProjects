@@ -8,18 +8,19 @@ import org.coffeecode.entity.HttpMethod;
 import org.coffeecode.entity.Response;
 import org.coffeecode.entity.Role;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-@Component
+@Configuration
 public class ApiGatewayEndpointConfigurationImpl implements ApiGatewayEndpointConfiguration
 {
     @Value("${api-gateway.url}")
     private String GATEWAY_URL;
 
     @PostConstruct
-    public void startOperation()
+    public void startrOperation()
     {
         initMap();
         register();
