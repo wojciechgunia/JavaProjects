@@ -31,4 +31,9 @@ public class Response
     {
         this.message = message;
     }
+
+    public void setTimestamp(String timestamp)
+    {
+        this.timestamp = timestamp;
+    }
 }

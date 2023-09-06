@@ -2,16 +2,20 @@ package org.coffeecode.entity;
 
 public class Endpoint
 {
-    private final String url;
-    private final HttpMethod httpMethod;
+    private String url;
+    private HttpMethod httpMethod;
 
-    private final Role role;
+    private Role role;
 
     public Endpoint(String url, HttpMethod httpMethod, Role role)
     {
         this.url = url;
         this.httpMethod = httpMethod;
         this.role = role;
+    }
+
+    public Endpoint()
+    {
     }
 
     public String getUrl()
@@ -27,5 +31,20 @@ public class Endpoint
     public Role getRole()
     {
         return role;
+    }
+
+    public void setUrl(String url)
+    {
+        this.url = url;
+    }
+
+    public void setHttpMethod(HttpMethod httpMethod)
+    {
+        this.httpMethod = httpMethod;
+    }
+
+    public void setRole(Role role)
+    {
+        this.role = role;
     }
 }

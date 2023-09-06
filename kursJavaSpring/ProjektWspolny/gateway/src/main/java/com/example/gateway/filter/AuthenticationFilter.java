@@ -59,8 +59,8 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                             .wrap((stringBuilder.toString()).getBytes())));
                 }
 
-                HttpCookie authCookie = exchange.getRequest().getCookies().get(HttpHeaders.AUTHORIZATION).get(0);
-                HttpCookie refreshCookie = exchange.getRequest().getCookies().get("refresh").get(0);
+                HttpCookie authCookie = exchange.getRequest().getCookies().get("Authorization").get(0);
+                HttpCookie refreshCookie = exchange.getRequest().getCookies().get("Refresh").get(0);
                 log.info("--START Validate Token");
                 try {
                     if (activeProfile.equals("test")){
