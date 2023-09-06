@@ -39,7 +39,7 @@ public class RouteValidator
             {
                 adminEndpoints.add(endpoint);
             }
-            else if (endpoint.getRole().name().equals(Role.GUEST.name()))
+            if (endpoint.getRole().name().equals(Role.GUEST.name()))
             {
                 openApiEndpoints.add(endpoint);
             }

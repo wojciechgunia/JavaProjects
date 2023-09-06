@@ -10,6 +10,7 @@ import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.*;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -106,7 +107,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                             log.info("Successful login");
                         }
                     }
-                } catch (Exception e) {
+                } catch (HttpClientErrorException e) {
                     log.warn("Cant login - bad token");
                     String message = e.getMessage().substring(7);
                     message = message.substring(0,message.length()-1);
