@@ -9,8 +9,10 @@ public class CookieService
     public Cookie generateCookie(String name,String value,int exp)
     {
         Cookie cookie = new Cookie(name,value);
-        cookie.setHttpOnly(true);
+        cookie.setHttpOnly(false);
+        cookie.setPath("/");
         cookie.setMaxAge(exp/1000);
+        cookie.setHttpOnly(true);
         return cookie;
     }
 
