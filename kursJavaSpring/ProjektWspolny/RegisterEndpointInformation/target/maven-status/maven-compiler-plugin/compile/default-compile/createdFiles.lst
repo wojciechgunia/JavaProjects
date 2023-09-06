@@ -1,0 +1,5 @@
+org\coffeecode\ApiGatewayEndpointConfiguration.class
+org\coffeecode\entity\Endpoint.class
+org\coffeecode\entity\Response.class
+org\coffeecode\entity\Role.class
+org\coffeecode\entity\HttpMethod.class
