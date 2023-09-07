@@ -9,6 +9,7 @@ public class Endpoint
 
     public Endpoint(String url, HttpMethod httpMethod, Role role)
     {
+        super();
         this.url = url;
         this.httpMethod = httpMethod;
         this.role = role;
@@ -16,6 +17,7 @@ public class Endpoint
 
     public Endpoint()
     {
+        super();
     }
 
     public String getUrl()
