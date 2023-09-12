@@ -32,7 +32,7 @@ public class ProductMediator
 
     public ResponseEntity<?> getProduct(int page, int limit, String name, String category, Float price_min, Float price_max, String data, String sort, String order)
     {
-        if(name == null || name.isEmpty() || data == null || data.isEmpty())
+        if(name != null && !name.isEmpty())
         {
             try
             {
@@ -43,11 +43,11 @@ public class ProductMediator
             }
         }
         List<ProductEntity> product = productService.getProduct(name, category, price_min, price_max, data, page, limit,sort,order);
-        product.forEach(value->{
-            for (int i = 0; i < value.getImageUrls().length; i++){
-                value.getImageUrls()[i] = FILE_SERVICE+"?uid="+value.getImageUrls()[i];
-            }
-        });
+//        product.forEach(value->{
+//            for (int i = 0; i < value.getImageUrls().length; i++){
+//                value.getImageUrls()[i] = FILE_SERVICE+"?uid="+value.getImageUrls()[i];
+//            }
+//        });
         if(name == null || name.isEmpty() || data == null || data.isEmpty())
         {
             List<SimpleProductDTO> simpleProductDTOS = new ArrayList<>();
