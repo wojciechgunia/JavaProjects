@@ -43,11 +43,11 @@ public class ProductMediator
             }
         }
         List<ProductEntity> product = productService.getProduct(name, category, price_min, price_max, data, page, limit,sort,order);
-//        product.forEach(value->{
-//            for (int i = 0; i < value.getImageUrls().length; i++){
-//                value.getImageUrls()[i] = FILE_SERVICE+"?uid="+value.getImageUrls()[i];
-//            }
-//        });
+        product.forEach(value->{
+            for (int i = 0; i < value.getImageUrls().length; i++){
+                value.getImageUrls()[i] = FILE_SERVICE+"?uid="+value.getImageUrls()[i];
+            }
+        });
         if(name == null || name.isEmpty() || data == null || data.isEmpty())
         {
             List<SimpleProductDTO> simpleProductDTOS = new ArrayList<>();
@@ -66,6 +66,12 @@ public class ProductMediator
         try
         {
             ProductEntity productEntity = productFormToProductEntity.toProductEntity(productFormDTO);
+            productEntity.setName(productFormDTO.getName());
+            productEntity.setMainDesc(productFormDTO.getMainDesc());
+            productEntity.setDescHtml(productFormDTO.getDescHtml());
+            productEntity.setPrice(productFormDTO.getPrice());
+            productEntity.setImageUrls(productFormDTO.getImagesUid());
+            productEntity.setParameters(productFormDTO.getParameters());
             categoryService.findCategoryByShortID(productEntity.getCategory().getShortId()).ifPresentOrElse(productEntity::setCategory, ()->{
                 throw new CategoryDontExistException();
             });

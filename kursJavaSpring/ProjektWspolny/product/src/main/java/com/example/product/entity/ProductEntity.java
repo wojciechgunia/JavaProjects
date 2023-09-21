@@ -15,8 +15,8 @@ import java.time.LocalDate;
 public class ProductEntity extends Product
 {
     @Id
-    @GeneratedValue(generator = "produkts_id_seq", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "produkts_id_seq",sequenceName = "produkts_id_seq", allocationSize = 1)
+    @GeneratedValue(generator = "products_id_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "products_id_seq",sequenceName = "products_id_seq", allocationSize = 1)
     private long id;
     @ManyToOne
     @JoinColumn(name = "category_parameters")

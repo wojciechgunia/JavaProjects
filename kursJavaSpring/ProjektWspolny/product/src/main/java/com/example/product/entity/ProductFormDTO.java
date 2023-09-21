@@ -13,9 +13,9 @@ public class ProductFormDTO
 {
     private String name;
     private String mainDesc;
-    private String descHTML;
+    private String descHtml;
     private float price;
-    private String[] imageUrls;
+    private String[] imagesUid;
     private String parameters;
     private String category;
 }

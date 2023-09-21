@@ -4,10 +4,12 @@ import com.example.fileservice.entity.ImageEntity;
 import com.example.fileservice.exceptions.FtpConnectionException;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,25 +20,26 @@ import java.util.UUID;
 public class FTPService
 {
 
-    @Value("ftp.server")
+    @Value("${ftp.server}")
     private String FTP_SERVER;
-    @Value("ftp.username")
+    @Value("${ftp.username}")
     private String FTP_USERNAME;
-    @Value("ftp.password")
+    @Value("${ftp.password}")
     private String FTP_PASSWORD;
-    @Value("ftp.origin")
+    @Value("${ftp.origin}")
     private String FTP_ORIGIN_DIRECTORY;
-    @Value("ftp.port")
-    private String FTP_PORT;
+    @Value("${ftp.port}")
+    private int FTP_PORT;
 
     private FTPClient getFTPConnection() throws IOException
     {
         FTPClient ftpClient = new FTPClient();
-        ftpClient.connect(FTP_SERVER,Integer.parseInt(FTP_PORT));
-        ftpClient.login(FTP_USERNAME,FTP_USERNAME);
+        ftpClient.connect(FTP_SERVER,FTP_PORT);
+        ftpClient.login(FTP_USERNAME,FTP_PASSWORD);
 
         ftpClient.enterLocalPassiveMode();
         ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+
         return ftpClient;
     }
 

@@ -143,6 +143,7 @@ public class ProductService
             productEntity.setCreateAt(LocalDate.now());
             productEntity.setUid(UUID.randomUUID().toString());
             productEntity.setActivate(true);
+            System.out.println(productEntity.getId() + " | " + productEntity.getUid() + " | " + productEntity.getName() + " | " + productEntity.getPrice() + " | " + productEntity.getCreateAt() + " | " + productEntity.getParameters() + " | " + productEntity.getMainDesc() + " | " + productEntity.getDescHtml() + " | " + productEntity.isActivate() + " | " + productEntity.getImageUrls() + " | " + productEntity.getCategory().getName() + " | " + productEntity.getCategory().getId()) ;
             productRepository.save(productEntity);
             for (String uid: productEntity.getImageUrls())
             {
