@@ -132,6 +132,7 @@ public class ProductService
         {
             predicates.add(criteriaBuilder.lessThan(root.get("price"),priceMax+0.01));
         }
+        predicates.add(criteriaBuilder.isTrue(root.get("activate")));
         return predicates;
     }
 
@@ -173,10 +174,10 @@ public class ProductService
         productRepository.findByUid(uid).ifPresentOrElse(value -> {
             value.setActivate(false);
             productRepository.save(value);
-            for(String image: value.getImageUrls())
-            {
-                deleteImages(image);
-            }
+//            for(String image: value.getImageUrls())
+//            {
+//                deleteImages(image);
+//            }
         },()->{
             throw new RuntimeException();
         });
