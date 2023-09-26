@@ -1,5 +1,6 @@
 package com.example.product.service;
 
+import com.example.product.entity.Product;
 import com.example.product.entity.ProductDTO;
 import com.example.product.entity.ProductEntity;
 import com.example.product.repository.CategoryRepository;
@@ -22,6 +23,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -187,5 +189,10 @@ public class ProductService
     {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.delete(FILE_SERVICE+"?uid="+uid);
+    }
+
+    public Optional<ProductEntity> getProductByUid(String uid)
+    {
+        return productRepository.findByUid(uid);
     }
 }

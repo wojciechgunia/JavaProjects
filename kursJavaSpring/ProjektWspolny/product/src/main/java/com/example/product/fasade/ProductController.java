@@ -42,4 +42,10 @@ public class ProductController
         return productMediator.deleteProduct(uid);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "getExternal")
+    public ResponseEntity<?> getProduct(@RequestParam String uid)
+    {
+        return productMediator.getProductExtend(uid);
+    }
+
 }
