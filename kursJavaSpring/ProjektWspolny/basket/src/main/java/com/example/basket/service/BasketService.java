@@ -1,6 +1,8 @@
 package com.example.basket.service;
 
 import com.example.basket.entity.*;
+import com.example.basket.exceptions.BasketItemDontExistException;
+import com.example.basket.exceptions.NoBasketInfoException;
 import com.example.basket.repository.BasketItemRepository;
 import com.example.basket.repository.BasketRepository;
 import jakarta.servlet.http.Cookie;
@@ -113,4 +115,39 @@ public class BasketService
         return basketRepository.saveAndFlush(basket);
     }
 
+    public ResponseEntity<?> delete(String uuid, HttpServletRequest request)
+    {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        List<Cookie> cookies = new ArrayList<>();
+        if(request.getCookies() != null)
+        {
+            cookies.addAll(List.of(request.getCookies()));
+        }
+        cookies.stream().filter(value -> value.getName().equals("Basket"))
+                .findFirst().ifPresentOrElse(value ->
+                {
+                    basketRepository.findByUuid(value.getValue()).ifPresentOrElse(basket ->
+                    {
+                        deleteItem(uuid,basket);
+                        Long sum = basketItemRepository.sumBasketItems(basket.getId());
+                        if (sum == null) sum = 0L;
+                        httpHeaders.add("X-Total-Count", String.valueOf(sum));
+                    }, () ->
+                    {
+                        throw new NoBasketInfoException("Basket doesn't exist");
+                    });
+                }, () -> {
+                    throw new NoBasketInfoException("No basket info in request");
+                });
+        return ResponseEntity.ok().headers(httpHeaders).body(new Response("Successful delete item from basket"));
+    }
+
+    private void deleteItem(String uuid, Basket basket) throws BasketItemDontExistException
+    {
+        basketItemRepository.findBasketItemsByProduct(uuid).ifPresentOrElse(basketItemRepository::delete,()-> {
+            throw new BasketItemDontExistException("Basket item don't exist");
+        });
+        Long sum = basketItemRepository.sumBasketItems(basket.getId());
+        if (sum == null || sum == 0) basketRepository.delete(basket);
+    }
 }
