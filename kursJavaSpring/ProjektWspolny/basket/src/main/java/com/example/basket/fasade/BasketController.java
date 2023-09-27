@@ -26,4 +26,10 @@ public class BasketController
     {
         return basketService.delete(uuid, request);
     }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<?> getItem(HttpServletRequest request)
+    {
+        return basketService.getItems(request);
+    }
 }

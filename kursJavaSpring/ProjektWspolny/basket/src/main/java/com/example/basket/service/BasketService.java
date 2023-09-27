@@ -150,4 +150,40 @@ public class BasketService
         Long sum = basketItemRepository.sumBasketItems(basket.getId());
         if (sum == null || sum == 0) basketRepository.delete(basket);
     }
+
+    public ResponseEntity<?> getItems(HttpServletRequest request)
+    {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        List<Cookie> cookies = new ArrayList<>();
+        if(request.getCookies() != null)
+        {
+            cookies.addAll(List.of(request.getCookies()));
+        }
+        ListBasketItemDTO listBasketItemDTO = new ListBasketItemDTO();
+        listBasketItemDTO.setBasketProducts(new ArrayList<>());
+        cookies.stream().filter(value -> value.getName().equals("Basket"))
+                .findFirst().ifPresentOrElse(value ->
+                {
+                    Basket basket = basketRepository.findByUuid(value.getValue()).orElseThrow(NoBasketInfoException::new);
+                    Long sum = basketItemRepository.sumBasketItems(basket.getId());
+                    if (sum == null) sum = 0L;
+                    httpHeaders.add("X-Total-Count", String.valueOf(sum));
+                    basketItemRepository.findBasketItemsByBasket(basket).forEach(item-> {
+                        try
+                        {
+                            Product product = getProduct(item.getProduct());
+                            listBasketItemDTO.getBasketProducts().add(new BasketItemDTO(product.getUid(),product.getName(), item.getQuantity(), product.getImageUrls()[0], product.getPrice(), (product.getPrice()*item.getQuantity())));
+                            listBasketItemDTO.setSummaryPrice(listBasketItemDTO.getSummaryPrice() + (product.getPrice()*item.getQuantity()));
+                        }
+                        catch (URISyntaxException e)
+                        {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                },()-> {
+                    throw new NoBasketInfoException("No basket info in request");
+                });
+        if (httpHeaders.isEmpty()) httpHeaders.add("X-Total-Count", String.valueOf(0));
+        return ResponseEntity.ok().headers(httpHeaders).body(listBasketItemDTO);
+    }
 }

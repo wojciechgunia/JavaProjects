@@ -2,6 +2,10 @@ package com.example.basket.exceptions;
 
 public class NoBasketInfoException extends RuntimeException
 {
+    public NoBasketInfoException()
+    {
+    }
+
     public NoBasketInfoException(String message)
     {
         super(message);
