@@ -13,6 +13,7 @@
         <module name="eureka" />
         <module name="gateway" />
         <module name="fileservice" />
+        <module name="order" />
       </profile>
       <profile name="Annotation profile for product" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -35,6 +36,7 @@
       <module name="eureka" options="-parameters" />
       <module name="fileservice" options="-parameters" />
       <module name="gateway" options="-parameters" />
+      <module name="order" options="-parameters" />
       <module name="product" options="-parameters -Amapstruct.defaultComponentModel=spring" />
     </option>
   </component>

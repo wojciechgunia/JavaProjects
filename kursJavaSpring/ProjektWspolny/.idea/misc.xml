@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/fileservice/pom.xml" />
         <option value="$PROJECT_DIR$/RegisterEndpointInformation/pom.xml" />
         <option value="$PROJECT_DIR$/basket/pom.xml" />
+        <option value="$PROJECT_DIR$/order/pom.xml" />
       </list>
     </option>
   </component>
