@@ -31,7 +31,7 @@ public class OrderService
     {
         Order finalOrder = save(order);
         AtomicReference<String> result = new AtomicReference<>();
-        Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("basket")).findFirst().ifPresentOrElse(value -> {
+        Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("Basket")).findFirst().ifPresentOrElse(value -> {
             ListBasketItemDTO basket = basketService.getBasket(value);
             List<OrderItems> items = new ArrayList<>();
             basket.getBasketProducts().forEach(item -> {
