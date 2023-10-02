@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -25,7 +26,16 @@ public class BasketService
     {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cookie", value.getName()+"="+value.getValue());
-        ResponseEntity<ListBasketItemDTO> response = restTemplate.exchange(BASKET_URL, HttpMethod.GET, new HttpEntity<String>(headers), ListBasketItemDTO.class);
+        ResponseEntity<ListBasketItemDTO> response;
+        try
+        {
+            response = restTemplate.exchange(BASKET_URL, HttpMethod.GET, new HttpEntity<String>(headers), ListBasketItemDTO.class);
+        }
+        catch (HttpClientErrorException e)
+        {
+            throw new RuntimeException();
+        }
+
         if(response.getStatusCode().isError()) throw new RuntimeException();
         return response.getBody();
     }
