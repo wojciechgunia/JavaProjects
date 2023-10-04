@@ -1,7 +1,6 @@
 package com.example.order.service;
 
 import com.example.order.entity.UserRegisterDTO;
-import com.example.order.exceptions.UserDontLoginException;
 import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +30,7 @@ public class AuthService
         cookie.forEach(value -> {
             cookieString.append(value.getName()).append("=").append(value.getValue()).append(";");
         });
-        if (cookieString.length() <= 0) throw new UserDontLoginException("User is not login");
+        if (cookieString.length() <= 0) return null;
         cookieString.deleteCharAt(cookieString.length()-1);
         httpHeaders.add("Cookie",cookieString.toString());
         HttpEntity<Void> requestEntity = new HttpEntity<>(httpHeaders);

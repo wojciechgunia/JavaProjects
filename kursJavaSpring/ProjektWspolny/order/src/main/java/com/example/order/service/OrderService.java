@@ -39,15 +39,11 @@ public class OrderService
         List<Cookie> cookies = Arrays.stream(request.getCookies()).filter(value->
                 value.getName().equals("Authorization") || value.getName().equals("Refresh"))
                 .toList();
-        try
+        UserRegisterDTO userRegisterDTO = authService.getUserDetails(cookies);
+        if(userRegisterDTO != null)
         {
-            UserRegisterDTO userRegisterDTO = authService.getUserDetails(cookies);
-            if(userRegisterDTO != null)
-            {
-                order.setClient(userRegisterDTO.getLogin());
-            }
+            order.setClient(userRegisterDTO.getLogin());
         }
-        catch(HttpClientErrorException e){}
 
         Order finalOrder = save(order);
         AtomicReference<String> result = new AtomicReference<>();
