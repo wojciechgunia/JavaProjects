@@ -1,6 +1,7 @@
 package com.example.order.service;
 
 import com.example.order.entity.*;
+import com.example.order.exceptions.PayUException;
 import com.example.order.translators.OrderItemsToPayUProduct;
 import lombok.RequiredArgsConstructor;
 import org.apache.hc.core5.http.Method;
@@ -48,7 +49,7 @@ public class PayuService
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(map, headers);
 
         ResponseEntity<PayUAuth> response = restTemplate.exchange(payu_url_auth, HttpMethod.POST, entity, PayUAuth.class);
-        if(response.getStatusCode().isError()) throw new RuntimeException();
+        if(response.getStatusCode().isError()) throw new PayUException();
         token = "Bearer "+ response.getBody().getAccess_token();
     }
 

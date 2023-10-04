@@ -1,6 +1,8 @@
 package com.example.order.service;
 
 import com.example.order.entity.*;
+import com.example.order.exceptions.EmptyBasketException;
+import com.example.order.exceptions.UknowDeliveryTypException;
 import com.example.order.repository.DeliverRepository;
 import com.example.order.repository.OrderRepository;
 import com.example.order.translators.BasketItemDTOToOrderItems;
@@ -49,7 +51,7 @@ public class OrderService
         AtomicReference<String> result = new AtomicReference<>();
         Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals("Basket")).findFirst().ifPresentOrElse(value -> {
             ListBasketItemDTO basket = basketService.getBasket(value);
-            if (basket.getBasketProducts().isEmpty()) throw new RuntimeException();
+            if (basket.getBasketProducts().isEmpty()) throw new EmptyBasketException();
             List<OrderItems> items = new ArrayList<>();
             basket.getBasketProducts().forEach(item -> {
                 OrderItems orderItems = basketItemDTOToOrderItems.toOrderItems(item);
@@ -71,7 +73,7 @@ public class OrderService
 
     private Order save(Order order)
     {
-        Deliver deliver = deliverRepository.findByUuid(order.getDeliver().getUuid()).orElseThrow(RuntimeException::new);
+        Deliver deliver = deliverRepository.findByUuid(order.getDeliver().getUuid()).orElseThrow(UknowDeliveryTypException::new);
         StringBuilder stringBuilder = new StringBuilder("ORDER/")
                 .append(orderRepository.count())
                 .append("/")
