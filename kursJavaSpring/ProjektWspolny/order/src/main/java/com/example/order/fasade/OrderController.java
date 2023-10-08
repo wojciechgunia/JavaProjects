@@ -2,6 +2,7 @@ package com.example.order.fasade;
 
 import com.example.order.entity.DeliverDTO;
 import com.example.order.entity.OrderDTO;
+import com.example.order.entity.notify.Notify;
 import com.example.order.exceptions.BasketDontExistException;
 import com.example.order.exceptions.EmptyBasketException;
 import com.example.order.exceptions.PayUException;
@@ -28,6 +29,12 @@ public class OrderController
     public ResponseEntity<?> createOrder(@RequestBody OrderDTO order, HttpServletResponse response, HttpServletRequest request)
     {
         return orderMediator.createOrder(order, request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/notification")
+    public ResponseEntity<Response> notifyOrder(@RequestBody Notify notify, HttpServletRequest request)
+    {
+        return orderMediator.handleNotify(notify, request);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

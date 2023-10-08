@@ -1,7 +1,9 @@
 package com.example.order.service;
 
 import com.example.order.entity.*;
+import com.example.order.entity.notify.Notify;
 import com.example.order.exceptions.EmptyBasketException;
+import com.example.order.exceptions.OrderDontExistException;
 import com.example.order.exceptions.UknowDeliveryTypException;
 import com.example.order.repository.DeliverRepository;
 import com.example.order.repository.OrderRepository;
@@ -86,5 +88,15 @@ public class OrderService
         order.setOrders(stringBuilder.toString());
         order.setDeliver(deliver);
         return orderRepository.saveAndFlush(order);
+    }
+
+    public void completeOrder(Notify notify) throws OrderDontExistException
+    {
+        orderRepository.findOrderByOrders(notify.getOrder().getExtOrderId()).ifPresentOrElse(value->{
+            value.setStatus(notify.getOrder().getStatus());
+            orderRepository.save(value);
+        },()-> {
+            throw new OrderDontExistException();
+        });
     }
 }
