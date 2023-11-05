@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,5 +19,6 @@ public class OrderDTO
     private CustomerDetails customerDetails;
     private Address address;
     private DeliverDTO deliver;
-    private Items items;
+    private List<Items> items;
+    private double summaryPrice;
 }

@@ -13,6 +13,7 @@ public class Items
 {
     private String uuid;
     private String name;
+    private String imageUrl;
     private long quantity;
     private double priceUnit;
     private double priceSummary;

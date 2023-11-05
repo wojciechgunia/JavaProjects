@@ -18,10 +18,7 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.lang.reflect.Array;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
@@ -98,5 +95,15 @@ public class OrderService
         },()-> {
             throw new OrderDontExistException();
         });
+    }
+
+    public List<Order> getOrdersByClient(String login)
+    {
+        return orderRepository.findOrderByClient(login);
+    }
+
+    public Order getOrdersByUuid(String uuid)
+    {
+        return orderRepository.findOrderByUuid(uuid).orElseThrow(OrderDontExistException::new);
     }
 }

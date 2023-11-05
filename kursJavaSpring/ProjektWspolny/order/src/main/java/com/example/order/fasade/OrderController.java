@@ -3,10 +3,7 @@ package com.example.order.fasade;
 import com.example.order.entity.DeliverDTO;
 import com.example.order.entity.OrderDTO;
 import com.example.order.entity.notify.Notify;
-import com.example.order.exceptions.BasketDontExistException;
-import com.example.order.exceptions.EmptyBasketException;
-import com.example.order.exceptions.PayUException;
-import com.example.order.exceptions.UknowDeliveryTypException;
+import com.example.order.exceptions.*;
 import com.example.order.mediator.OrderMediator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -37,6 +34,12 @@ public class OrderController
         return orderMediator.handleNotify(notify, request);
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<?> get(@RequestParam(required = false) String uuid, HttpServletRequest request)
+    {
+        return orderMediator.getOrder(uuid, request);
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BasketDontExistException.class)
     public Response handleValidationExceptions(BasketDontExistException ex)
@@ -63,5 +66,12 @@ public class OrderController
     public Response handleValidationExceptions(UknowDeliveryTypException ex)
     {
         return new Response("Delivery type don't exist");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(UserDontLoginException.class)
+    public Response handleValidationExceptions(UserDontLoginException ex)
+    {
+        return new Response("User is not logged in");
     }
 }
