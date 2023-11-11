@@ -100,7 +100,7 @@ public class BasketService
 
     private Product getProduct(String uid) throws  URISyntaxException
     {
-        URI uri = new URIBuilder(PRODUCT_URL + "/getExternal").addParameter("uid", uid).build();
+        URI uri = new URIBuilder(PRODUCT_URL + "/getexternal").addParameter("uid", uid).build();
         ResponseEntity<?> response = restTemplate.getForEntity(uri, Product.class);
         if(response.getStatusCode().isError())
         {
