@@ -16,8 +16,6 @@ public abstract class OrderItemsToItems
     }
 
     @Mappings({
-            @Mapping(target = "price", source = "priceUnit"),
-            @Mapping(target = "summaryPrice", source = "priceSummary"),
             @Mapping(target = "imageUrl", ignore = true),
     })
     protected abstract Items toItems2(OrderItems orderItems);
