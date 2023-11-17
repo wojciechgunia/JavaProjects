@@ -12,6 +12,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
@@ -33,6 +34,9 @@ public class OrderService
     private final BasketItemDTOToOrderItems basketItemDTOToOrderItems;
     private final EmailService emailService;
     private final AuthService authService;
+
+    @Value("${payu.use}")
+    private boolean payu_use;
 
     @Transactional
     public String createOrder(Order order, HttpServletRequest request, HttpServletResponse response)
@@ -59,7 +63,10 @@ public class OrderService
                 items.add(itemService.save(orderItems));
                 basketService.removeBasket(value,item.getUuid());
             });
-            result.set(payuService.createOrder(finalOrder, items));
+            if(payu_use)
+            {
+                result.set(payuService.createOrder(finalOrder, items));
+            }
             value.setMaxAge(0);
             response.addCookie(value);
             //emailService.sendOrder(order.getEmail(),order.getUuid());

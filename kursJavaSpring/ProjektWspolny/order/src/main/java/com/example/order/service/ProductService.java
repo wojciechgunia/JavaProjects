@@ -24,7 +24,7 @@ public class ProductService
     {
         URI uri = null;
         try{
-            uri = new URIBuilder(PRODUCT_URL).addParameter("uuid", uuid).build();
+            uri = new URIBuilder(PRODUCT_URL).addParameter("uid", uuid).build();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
