@@ -37,6 +37,6 @@
 
 <ul>
 	<li><a href="https://github.com/wojciechgunia/PUT_Brandshop_PO">PUT Brandshop Project - online store with Java Spring and Angular</a></li>
-	<li><a href="https://github.com/wojciechgunia/PUT_IO_Project_JSON_Tools">PUT_IO_Project_JSON_Tools - Java Spring and Angular JSON Management Tool (Team project)</a></li>
+	<li><a href="https://github.com/wojciechgunia/PUT_IO_Project_JSON_Tools">PUT_IO_Project_JSON_Tools - Java Spring JSON Management Tool [Backend](Team project)</a></li>
 	<li><a href="https://github.com/wojciechgunia/wojciechgunia.pl">Design of my personal website in Java Spring and Angular</a></li>
 </ul>
